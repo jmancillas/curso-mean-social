@@ -9,7 +9,7 @@ var app = express();
 var user_routes = require('./routes/user');
 var follow_routes = require('./routes/follow');
 
-//middlwares
+//middlwares = metodos que se ejecutan antes de cualquier controlador
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 

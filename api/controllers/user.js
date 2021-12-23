@@ -42,17 +42,27 @@ function saveUser (req, res){
             {email: user.email.toLowerCase()},
             {nick: user.nick.toLowerCase()}
         ]}).exec((err, users) =>{
-            if(err) return res.status(500).send({message: 'error en la peticion de usuarios'});
-            if(users && users.length >= 1) {return res.status(200).send({message: 'el usuario que intenta guardar ya existe'});}
+            if(err){
+                return res.status(500).send({message: 'error en la peticion de usuarios'})
+            }
+            if(users && users.length >= 1){
+                return res.status(200).send({message: 'el usuario que intenta guardar ya existe'})
+            }
             else{
                 //encripta pass y guarda 
                 bcrypt.hash(params.password, null, null, (err, hash) => {
                     user.password = hash;
 
                     user.save((err, userStored) =>{
-                        if(err) return status(200).send({message: 'error al guardar el usuario'});
-                        if(userStored) { res.status(200).send({user: userStored});}
-                        else{ res.status(500).send({message: 'error en el servidor, no se guardo el usuario'})}
+                        if(err){
+                            return res.status(200).send({message: 'error al guardar el usuario'})
+                        }
+                        if(userStored){ 
+                            res.status(200).send({user: userStored})
+                        }
+                        else{ 
+                            res.status(500).send({message: 'error en el servidor, no se guardo el usuario'})
+                        }
                     });
                 });
             }
@@ -183,6 +193,7 @@ function uploadImage(req, res){
     }
 
 }
+
 function getImageUser(req, res){
     var imageFile = req.params.imageFile
     var pathFile = './uploads/users/' + imageFile
