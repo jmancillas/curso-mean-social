@@ -9,7 +9,7 @@ exports.ensureAuth = function(req, res, next){
         return res.status(403).send({message: 'La peticion no contiende la cabezera de autorizacion'})   
     }
     var Token = req.headers.authorization.replace(/['"]+/g, '')
-
+    
     try{
         var payload = jwt.decode(Token, secret)
 
