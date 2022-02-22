@@ -1,7 +1,6 @@
 'use strict'
 
 // importar modelo
-
 var mongoosePaginate = require('mongoose-pagination')
 var fs = require('fs')
 var path = require('path')
@@ -81,7 +80,7 @@ function getFollowedUsers(req, res){
     })
 }
 
-//lista de usuarios
+//lista de usuarios sin paginar
 function getMyFollows(req, res){
     var userId = req.user.sub;
     var find = null;
