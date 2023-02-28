@@ -4,17 +4,10 @@ var moment = require('moment');
 var mongoosePaginate = require('mongoose-pagination')
 var fs = require('fs')
 var path = require('path')
-
 var User = require('../models/user');
 var Follow = require('../models/follow');
 var Publication = require('../models/publication');
 const { totalmem } = require('os');
-
-function probando(req, res) {
-    res.status(200).send({
-        message: "controlador publicaciones"
-    })
-}
 
 function savePublication(req, res) {
     var params = req.body;
@@ -50,12 +43,13 @@ function getPublications(req, res) {
             follow_clean.push(follow.folloed);
         });
 
+        console.log(follows);
         Publication.find({ user: { "$in": follow_clean } })
             .sort('-created_at')
             .populate('user')
             .paginate(page, itemsPerPage, (err, publications, total) => {
                 if (err) return res.status(500).send({ message: 'Error al obtener publicaciones' });
-                if (!publications) return res.status(404).send({ message: 'No hoy publicaciones' });
+                if (!publications) return res.status(404).send({ message: 'No hay publicaciones' });
 
                 return res.status(200).send({
                     total_items: total,
@@ -68,7 +62,6 @@ function getPublications(req, res) {
 }
 
 module.exports = {
-    probando,
     savePublication,
     getPublications
 }

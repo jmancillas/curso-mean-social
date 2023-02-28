@@ -1,12 +1,10 @@
 'use strict'
 
 // importar modelo
-
 var bcrypt = require('bcrypt-nodejs');
 var mongoosePaginate = require('mongoose-pagination')
 var fs = require('fs')
 var path = require('path')
-
 var User = require('../models/user');
 var Follow = require('../models/follow');
 var jwt = require('../services/jwt');
@@ -80,9 +78,7 @@ function loginUser(req, res) {
             bcrypt.compare(password, user.password, (err, check) => {
 
                 if (check) {
-
                     if (params.gettoken) {
-
                         return res.status(200).send({
                             token: jwt.createToken(user)
                         })
@@ -191,8 +187,8 @@ async function followUserIds(user_id) {
     });
 
     return {
-        following = following_clean,
-        followed = followed_clean
+        following: following_clean,
+        followed: followed_clean
     }
 }
 
@@ -219,8 +215,8 @@ async function getCountFollow(user_id) {
     })
 
     return {
-        following = following,
-        followed = followed
+        following: following,
+        followed: followed
     }
 }
 //actualizar usuarios
