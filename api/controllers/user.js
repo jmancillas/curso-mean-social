@@ -7,7 +7,9 @@ var fs = require('fs')
 var path = require('path')
 var User = require('../models/user');
 var Follow = require('../models/follow');
+var publication = require('../models/publication');
 var jwt = require('../services/jwt');
+const { exec } = require('child_process');
 
 //register
 function saveUser(req, res) {
@@ -214,6 +216,10 @@ async function getCountFollow(user_id) {
         return count;
     })
 
+    var publications = await Publication.count({"user":user_id}).exec((err, count) => {
+        if(err) return handleError(err);
+        return count;
+    })
     return {
         following: following,
         followed: followed
@@ -273,7 +279,7 @@ function getImageUser(req, res) {
     var imageFile = req.params.imageFile
     var pathFile = './uploads/users/' + imageFile
 
-    fs.exists(pathFile, (exist) => {
+    fs.existsSync(pathFile, (exist) => {
         if (exist) {
             res.sendFile(path.resolve(pathFile))
         }
